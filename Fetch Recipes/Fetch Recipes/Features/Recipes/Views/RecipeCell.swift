@@ -8,28 +8,13 @@
 import SwiftUI
 
 struct RecipeCell: View {
-    
     let recipe: Recipe
     
     var body: some View {
         HStack(spacing: 12) {
-            AsyncImage(url: recipe.photoURLSmall) { phase in
-                switch phase {
-                case .empty:
-                    ProgressView()
-                case .success(let image):
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                case .failure(_):
-                    Image(systemName: "photo")
-                        .foregroundColor(.gray)
-                @unknown default:
-                    EmptyView()
-                }
-            }
-            .frame(width: 60, height: 60)
-            .clipShape(RoundedRectangle(cornerRadius: 15))
+            CachedAsyncImage(url: recipe.photoURLSmall)
+                .frame(width: 60, height: 60)
+                .clipShape(RoundedRectangle(cornerRadius: 15))
             
             VStack(alignment: .leading, spacing: 5) {
                 Text(recipe.name)
@@ -43,6 +28,52 @@ struct RecipeCell: View {
             Spacer()
         }
         .padding(.vertical)
+    }
+}
+
+
+struct CachedAsyncImage: View {
+    let url: URL?
+    
+    @State private var image: Image?  // Changed from UIImage to SwiftUI.Image
+    @State private var isLoading = false
+    @State private var error: Error?
+    
+    var body: some View {
+        Group {
+            if let image = image {
+                image
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+            } else if isLoading {
+                ProgressView()
+            } else if error != nil {
+                Image(systemName: "photo")
+                    .foregroundColor(.gray)
+            } else {
+                Image(systemName: "photo")
+                    .foregroundColor(.gray)
+            }
+        }
+        .task {
+            await loadImage()
+        }
+    }
+    
+    private func loadImage() async {
+        guard let url = url else { return }
+        
+        isLoading = true
+        defer { isLoading = false }
+        
+        do {
+            let uiImage = try await ImageCache.shared.image(for: url)
+            // Convert UIImage to SwiftUI.Image
+            image = Image(uiImage: uiImage)
+        } catch {
+            self.error = error
+            print("Image loading error: \(error)") // Add this for debugging
+        }
     }
 }
 

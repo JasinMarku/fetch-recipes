@@ -31,14 +31,26 @@ final class RecipeListViewModel: ObservableObject {
         error = nil
         
         do {
+            // Fetch from the main endpoint
             let response: RecipesResponse = try await networkManager.fetch(RecipeEndpoint.fetchRecipes)
             recipes = response.recipes.sorted { $0.name < $1.name }
-        } catch let networkError as NetworkError {
-            // If it's a known NetworkError, assigned directly to the ViewModel's error property
-            self.error = networkError
         } catch {
-            // For any other error, wrap in NetworkError.unknown
-            self.error = NetworkError.unknown(error)
+            // Handle specific cases for malformed and empty data
+            if let networkError = error as? NetworkError {
+                switch networkError {
+                case .invalidData:
+                    // Handle malformed data case
+                    self.error = NetworkError.unknown(error)
+                    self.recipes = [] // Clear recipes
+                case .serverError(let code) where code == 404:
+                    // Handle empty data case
+                    self.recipes = [] // Clear recipes
+                default:
+                    self.error = networkError
+                }
+            } else {
+                self.error = NetworkError.unknown(error)
+            }
         }
         
         isLoading = false
