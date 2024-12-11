@@ -20,12 +20,11 @@ struct Recipe: Decodable {
     let photoURLSmall: URL?
     let sourceURL: URL?
     let youtubeURL: URL?
-    
-    enum Content: String, Decodable {
+
+    enum CodingKeys: String, CodingKey {
         case cuisine
         case name
         case uuid
-        
         case photoURLLarge = "photo_url_large"
         case photoURLSmall = "photo_url_small"
         case sourceURL = "source_url"
