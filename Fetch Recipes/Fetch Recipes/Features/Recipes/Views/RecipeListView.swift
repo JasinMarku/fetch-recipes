@@ -10,11 +10,14 @@ import SwiftUI
 struct RecipeListView: View {
     
     @StateObject private var viewModel = RecipeListViewModel()
-    @State private var isRotating = false // Tracks rotation state
+    @State private var isRotating = false
     
     var body: some View {
         NavigationStack {
             ZStack {
+                Color.accentBackground
+                    .ignoresSafeArea()
+                
                 if viewModel.isLoading {
                     ProgressView()
                 } else if viewModel.recipes.isEmpty {
@@ -26,18 +29,61 @@ struct RecipeListView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                     .offset(y: -50)
                 } else {
-                    List(viewModel.recipes, id: \.uuid) { recipe in
-                        RecipeCell(recipe: recipe)
+                    VStack(alignment: .leading) {
+                        Text("Fetch Recipes")
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
+                            .foregroundStyle(.primary)
+                            .padding(.bottom, 10)
+                        
+                        
+                        
+                        ScrollView {
+                            if let cuisine = viewModel.featuredCuisine {
+                                FeaturedCuisineView(
+                                    cuisine: cuisine,
+                                    recipes: viewModel.featuredRecipes
+                                )
+                                .padding(.bottom, 20)
+                            }
+                            
+                            LazyVStack(alignment: .leading) {
+                                Text("All Dishes")
+                                    .font(.title3)
+                                    .fontWeight(.semibold)
+                                
+                                ForEach(viewModel.sortedRecipes, id: \.uuid) { recipe in
+                                    RecipeCell(recipe: recipe)
+                                }
+                            }
+                        }
+                        .scrollIndicators(.hidden)
                     }
-                    .refreshable {
-                        await viewModel.fetchRecipes()
-                    }
+                    .padding(.horizontal)
                 }
             }
-            .navigationTitle("Recipes")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    reloadButton
+                    HStack {
+                        Menu {
+                            Button {
+                                viewModel.changeSortOption(to: .alphabetical)
+                            } label: {
+                                Label("Sort by Name", systemImage: "textformat")
+                            }
+                            
+                            Button {
+                                viewModel.changeSortOption(to: .origin)
+                            } label: {
+                                Label("Sort by Origin", systemImage: "globe")
+                            }
+                        } label: {
+                            Image(systemName: "arrow.up.arrow.down")
+                                .tint(.primary)
+                        }
+                        
+                        reloadButton
+                    }
                 }
             }
             .task {
@@ -63,14 +109,8 @@ extension RecipeListView {
             }
         } label: {
             Image(systemName: "arrow.clockwise")
-                .rotationEffect(.degrees(isRotating ? 360 : 0))
-                .animation(
-                    isRotating ?
-                        .linear(duration: 1)
-                        .repeatForever(autoreverses: false) :
-                        .default,
-                    value: isRotating
-                )
+                .rotationEffect(isRotating ? .degrees(180) : .degrees(0))
+                .animation(isRotating ? Animation.linear(duration: 1).repeatForever(autoreverses: false) : .default, value: isRotating)
                 .tint(.primary)
         }
     }

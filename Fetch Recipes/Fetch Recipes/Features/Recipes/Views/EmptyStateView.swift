@@ -13,14 +13,16 @@ struct EmptyStateView: View {
     let image: String
     
     var body: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: 10) {
             Image(image)
+                .renderingMode(.template)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 50)
+                .foregroundStyle(Color.accentPink)
             
             Text(title)
-                .font(.title2)
+                .font(.title)
                 .fontWeight(.medium)
                 .multilineTextAlignment(.center)
             
@@ -36,7 +38,7 @@ struct EmptyStateView: View {
 #Preview {
         EmptyStateView(
             title: "No Recipes Found",
-            message: "Your plate is empty at the moment. Refresh or try again soon.",
+            message: "Your plate is empty at the moment.\nRefresh or try again soon.",
             image: "emptystate"
         )
 }

@@ -17,6 +17,62 @@ final class RecipeListViewModel: ObservableObject {
     @Published private(set) var error: NetworkError?
     @Published private(set) var isLoading = false
     
+    // Explore wheel
+    @Published private(set) var featuredCuisine: String?
+    @Published private(set) var featuredRecipes: [Recipe] = []
+    
+    private var lastUpdateTime: Date = .distantPast
+    
+    private func updateFeaturedCuisine() {
+        let currentTime = Date()
+        
+        guard currentTime.timeIntervalSince(lastUpdateTime) >= 3600 else { return } // checks if an hour passed
+        
+        // get unique cuisines
+        let cuisines = Array(Set(recipes.map { $0.cuisine }))
+        guard let randomCuisine = cuisines.randomElement() else { return }
+        
+        featuredCuisine = randomCuisine
+        featuredRecipes = recipes.filter { $0.cuisine == randomCuisine }
+        lastUpdateTime = currentTime
+    }
+    
+    
+    @Published var currentSortOption: SortOption = .alphabetical
+
+    // Sorting enum
+     enum SortOption {
+        case alphabetical
+        case origin
+     
+      var text: String {
+        switch self {
+        case .alphabetical: return "Alphabetically"
+        case .origin: return "Origin"
+        }
+      }
+     }
+    
+    // Cuisine of the day
+    var randomRecipe: Recipe? {
+        guard !recipes.isEmpty else { return nil }
+        return recipes.randomElement()
+    }
+
+     var sortedRecipes: [Recipe] {
+        switch currentSortOption {
+        case .alphabetical:
+            return recipes.sorted { $0.name < $1.name }
+        case .origin:
+            return recipes.sorted { $0.cuisine < $1.cuisine }
+        }
+     }
+
+     func changeSortOption(to option: SortOption) {
+         currentSortOption = option
+     }
+
+    
     // MARK: - Private Properties
     // handles actual network request
     private let networkManager: NetworkManager
@@ -34,6 +90,7 @@ final class RecipeListViewModel: ObservableObject {
             // Fetch from the main endpoint
             let response: RecipesResponse = try await networkManager.fetch(RecipeEndpoint.fetchRecipes)
             recipes = response.recipes.sorted { $0.name < $1.name }
+            updateFeaturedCuisine() 
         } catch {
             // Handle specific cases for malformed and empty data
             if let networkError = error as? NetworkError {
@@ -56,3 +113,4 @@ final class RecipeListViewModel: ObservableObject {
         isLoading = false
     }
 }
+

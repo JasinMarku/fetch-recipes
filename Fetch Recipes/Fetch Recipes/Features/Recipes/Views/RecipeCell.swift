@@ -24,10 +24,8 @@ struct RecipeCell: View {
                     .font(.subheadline)
                     .foregroundColor(.secondary)
             }
-            
             Spacer()
         }
-        .padding(.vertical)
     }
 }
 
@@ -35,7 +33,7 @@ struct RecipeCell: View {
 struct CachedAsyncImage: View {
     let url: URL?
     
-    @State private var image: Image?  // Changed from UIImage to SwiftUI.Image
+    @State private var image: Image?
     @State private var isLoading = false
     @State private var error: Error?
     
