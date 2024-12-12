@@ -30,7 +30,7 @@ actor ImageCache {
         
         // Check memory cache first
         if let cached = memoryCache.object(forKey: key as NSString) {
-            print("🎯 Memory cache hit for: \(url)")
+//            print("🎯 Memory cache hit for: \(url)")
             return cached
         }
         
@@ -38,7 +38,7 @@ actor ImageCache {
         do {
             let data = try await diskCache.retrieve(for: key)
             if let image = UIImage(data: data) {
-                print("💾 Disk cache hit for: \(url)")
+//                print("💾 Disk cache hit for: \(url)")
                 memoryCache.setObject(image, forKey: key as NSString)
                 return image
             } else {
@@ -46,7 +46,7 @@ actor ImageCache {
             }
         } catch CacheError.notFound {
             // Download and cache
-            print("⬇️ Downloading image for: \(url)")
+//            print("⬇️ Downloading image for: \(url)")
             let (data, _) = try await URLSession.shared.data(from: url)
             
             if let image = UIImage(data: data) {
