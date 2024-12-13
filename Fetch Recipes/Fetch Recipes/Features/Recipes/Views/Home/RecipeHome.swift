@@ -41,6 +41,7 @@ struct RecipeHome: View {
                             featuredSection
                             
                             Divider()
+                                .padding(.vertical, 5)
                                                         
                             fullList
                         }
