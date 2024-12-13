@@ -38,18 +38,16 @@ final class RecipeListViewModel: ObservableObject {
     }
 
     // Featured Section Update
-    private var lastUpdateTime: Date = .distantPast
     private func updateFeaturedCuisine() {
-        let currentTime = Date()
-        
-        guard currentTime.timeIntervalSince(lastUpdateTime) >= 3600 else { return }
-        
+        // Get unique cuisines
         let cuisines = Array(Set(recipes.map { $0.cuisine }))
+        
+        // Randomly select a cuisine
         guard let randomCuisine = cuisines.randomElement() else { return }
         
+        // Update the featured section
         featuredCuisine = randomCuisine
         featuredRecipes = recipes.filter { $0.cuisine == randomCuisine }
-        lastUpdateTime = currentTime
     }
 
     // Sorting options
@@ -75,7 +73,7 @@ final class RecipeListViewModel: ObservableObject {
     init(networkManager: NetworkManager = .shared) {
         self.networkManager = networkManager
     }
-    
+
     func fetchRecipes() async {
         isLoading = true
         error = nil
