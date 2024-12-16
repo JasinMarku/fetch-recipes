@@ -77,11 +77,7 @@ extension RecipeHome {
         HStack (alignment: .bottom){
             Text("Recipes")
                 .font(.largeTitle)
-            
-            Text("by Fetch")
-                .font(.footnote)
-                .foregroundStyle(.secondary)
-                .padding(.bottom, 5)
+
         }
         .fontWeight(.bold)
         .fontDesign(.rounded)

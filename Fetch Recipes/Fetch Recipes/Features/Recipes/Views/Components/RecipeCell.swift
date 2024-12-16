@@ -33,9 +33,9 @@ struct RecipeCell: View {
         }
         .sheet(isPresented: $showDetailView) {
             RecipeDetailView(recipe: recipe)
-                .presentationDetents([.fraction(0.9)]) // Set the height to 90% of the screen
-                .presentationDragIndicator(.hidden) // Hide the drag indicator
-                .presentationBackground(.thinMaterial) // Use a material background
+                .presentationDetents([.fraction(0.9)])
+                .presentationDragIndicator(.hidden)
+                .presentationCornerRadius(25)
         }
     }
 }

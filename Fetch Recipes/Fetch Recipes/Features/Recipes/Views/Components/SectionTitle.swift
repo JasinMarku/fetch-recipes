@@ -20,7 +20,7 @@ struct SectionTitle: View {
             Text(title)
                 .font(.title3)
                 .fontWeight(.semibold)
-                .foregroundStyle(.appPink)
+                .foregroundStyle(Color.recipeAppAccent)
                 .lineLimit(1)
                 .minimumScaleFactor(0.8)
                 .layoutPriority(1) 

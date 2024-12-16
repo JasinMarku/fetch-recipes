@@ -68,8 +68,7 @@ private extension FeaturedCuisineView {
             // Gradient overlay
             LinearGradient(
                 colors: [
-                    .appPink.opacity(isSingle ? 0.7 : 0.5),
-                    isSingle ? .clear : .black.opacity(0.3)
+                    .black.opacity(0.8), .clear
                 ],
                 startPoint: .bottom,
                 endPoint: .center
@@ -110,7 +109,7 @@ struct RecipeImageButton<Content: View>: View {
                 RecipeDetailView(recipe: recipe)
                     .presentationDetents([.fraction(0.9)])
                     .presentationDragIndicator(.hidden)
-                    .presentationBackground(.thinMaterial)
+                    .presentationCornerRadius(25)
             }
     }
 }
