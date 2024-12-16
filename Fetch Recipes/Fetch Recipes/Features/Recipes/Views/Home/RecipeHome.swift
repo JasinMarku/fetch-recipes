@@ -24,26 +24,16 @@ struct RecipeHome: View {
                     emptyState
                 } else {
                     VStack(alignment: .leading) {
-                        HStack (alignment: .bottom){
-                            Text("Recipes")
-                                .font(.largeTitle)
-                            
-                            Text("by Fetch")
-                                .font(.footnote)
-                                .foregroundStyle(.secondary)
-                                .padding(.bottom, 5)
-                        }
-                        .padding(.bottom, 10)
-                        .fontWeight(.bold)
-                        .fontDesign(.rounded)
-
                         ScrollView {
-                            featuredSection
-                            
-                            Divider()
-                                .padding(.vertical, 5)
-                                                        
-                            fullList
+                            VStack(alignment: .leading, spacing: 20) {
+                                title
+
+                                SearchBar(searchText: $viewModel.searchText)
+                                
+                                featuredSection
+                                
+                                fullList
+                            }
                         }
                         .scrollIndicators(.hidden)
                     }
@@ -83,6 +73,20 @@ extension RecipeHome {
         .offset(y: -50)
     }
     
+    var title: some View {
+        HStack (alignment: .bottom){
+            Text("Recipes")
+                .font(.largeTitle)
+            
+            Text("by Fetch")
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+                .padding(.bottom, 5)
+        }
+        .fontWeight(.bold)
+        .fontDesign(.rounded)
+    }
+    
     var featuredSection: some View {
         Group {
             if let cuisine = viewModel.featuredCuisine {
@@ -90,7 +94,6 @@ extension RecipeHome {
                     cuisine: cuisine,
                     recipes: viewModel.featuredRecipes
                 )
-                .padding(.bottom, 5)
             } else {
                 EmptyView()
             }
@@ -99,18 +102,13 @@ extension RecipeHome {
     
     var fullList: some View {
         LazyVStack(alignment: .leading, spacing: 15) {
-            Text("All Dishes")
-                .font(.title3)
-                .fontWeight(.semibold)
-                .foregroundStyle(.appPink)
-            
-            SearchBar(searchText: $viewModel.searchText)
-            
+            SectionTitle(title: "All Dishes")
+                        
             ForEach(viewModel.filteredAndSortedRecipes, id: \.uuid) { recipe in
                 RecipeCell(recipe: recipe)
             }
         }
-        .padding(.top, 5)
+        .padding(.top, 10)
     }
     
     

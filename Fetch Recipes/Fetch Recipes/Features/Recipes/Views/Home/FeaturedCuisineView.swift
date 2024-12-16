@@ -27,21 +27,19 @@ struct FeaturedCuisineView: View {
 // MARK: - View Components
 private extension FeaturedCuisineView {
     var titleView: some View {
-        Text(recipes.count == 1 ? "Featured \(cuisine) Dish" : "Explore \(cuisine) Dishes")
-            .font(.title3)
-            .fontWeight(.semibold)
-            .foregroundStyle(.appPink)
+        SectionTitle(title: recipes.count == 1 ? "Featured \(cuisine) Dish" : "Explore \(cuisine) Dishes")
     }
-    
     var singleImageView: some View {
         Group {
             if let recipe = recipes.first, let imageURL = recipe.photoURLLarge {
-                CachedAsyncImage(url: imageURL)
-                    .frame(maxWidth: .infinity, maxHeight: 200)
-                    .clipShape(RoundedRectangle(cornerRadius: 15))
-                    .overlay(
-                        overlayGradient(for: recipe, isSingle: true)
-                    )
+                RecipeImageButton(recipe: recipe) {
+                    CachedAsyncImage(url: imageURL)
+                        .frame(maxWidth: .infinity, maxHeight: 200)
+                        .clipShape(RoundedRectangle(cornerRadius: 15))
+                        .overlay(
+                            overlayGradient(for: recipe, isSingle: true)
+                        )
+                }
             }
         }
     }
@@ -51,12 +49,14 @@ private extension FeaturedCuisineView {
             LazyHStack(spacing: 15) {
                 ForEach(recipes, id: \.uuid) { recipe in
                     if let imageURL = recipe.photoURLLarge {
-                        CachedAsyncImage(url: imageURL)
-                            .frame(width: 200, height: 200)
-                            .clipShape(RoundedRectangle(cornerRadius: 15))
-                            .overlay(
-                                overlayGradient(for: recipe, isSingle: false)
-                            )
+                        RecipeImageButton(recipe: recipe) {
+                            CachedAsyncImage(url: imageURL)
+                                .frame(width: 200, height: 200)
+                                .clipShape(RoundedRectangle(cornerRadius: 15))
+                                .overlay(
+                                    overlayGradient(for: recipe, isSingle: false)
+                                )
+                        }
                     }
                 }
             }
@@ -87,6 +87,31 @@ private extension FeaturedCuisineView {
                     .padding()
             }
         }
+    }
+}
+
+struct RecipeImageButton<Content: View>: View {
+    let recipe: Recipe
+    let content: () -> Content
+    @State private var showDetailView = false
+    
+    init(recipe: Recipe, @ViewBuilder content: @escaping () -> Content) {
+        self.recipe = recipe
+        self.content = content
+    }
+    
+    var body: some View {
+        content()
+            .contentShape(Rectangle())
+            .onTapGesture {
+                showDetailView = true
+            }
+            .sheet(isPresented: $showDetailView) {
+                RecipeDetailView(recipe: recipe)
+                    .presentationDetents([.fraction(0.9)])
+                    .presentationDragIndicator(.hidden)
+                    .presentationBackground(.thinMaterial)
+            }
     }
 }
 
