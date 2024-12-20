@@ -10,5 +10,5 @@ import SwiftUI
 
 extension Color {
     static let accentBackground = Color("appBackground")
-    static let accentPink = Color("appPink")
+    static let mainAppAccent = Color("recipeAppAccent")
 }

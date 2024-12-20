@@ -14,7 +14,7 @@ struct SearchBar: View {
     var body: some View {
         HStack(spacing: 8) {
             Image(systemName: "magnifyingglass")
-                .foregroundStyle(isFocused ? Color.accentPink : Color.gray)
+                .foregroundStyle(isFocused ? Color.recipeAppAccent : Color.gray)
             
             TextField("Search Dishes...", text: $searchText)
                 .focused($isFocused)
@@ -35,7 +35,7 @@ struct SearchBar: View {
         .padding(.horizontal, 10)
         .overlay(
             Capsule()
-                .stroke(isFocused ? Color.accentPink : Color.gray, lineWidth: isFocused ? 2 : 1)
+                .stroke(isFocused ? Color.recipeAppAccent : Color.gray, lineWidth: isFocused ? 2 : 1)
         )
         .animation(.easeInOut, value: isFocused)
         .padding(.horizontal, 0.5)

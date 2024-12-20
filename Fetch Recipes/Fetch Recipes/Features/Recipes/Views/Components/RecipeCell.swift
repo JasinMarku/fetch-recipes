@@ -9,6 +9,7 @@ import SwiftUI
 
 struct RecipeCell: View {
     let recipe: Recipe
+    @State private var showDetailView = false
     
     var body: some View {
         HStack(spacing: 12) {
@@ -25,6 +26,16 @@ struct RecipeCell: View {
                     .foregroundColor(.secondary)
             }
             Spacer()
+        }
+        .contentShape(Rectangle()) 
+        .onTapGesture {
+            showDetailView = true
+        }
+        .sheet(isPresented: $showDetailView) {
+            RecipeDetailView(recipe: recipe)
+                .presentationDetents([.fraction(0.9)])
+                .presentationDragIndicator(.hidden)
+                .presentationCornerRadius(25)
         }
     }
 }

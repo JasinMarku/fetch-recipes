@@ -19,7 +19,7 @@ struct EmptyStateView: View {
                 .resizable()
                 .scaledToFit()
                 .frame(width: 50)
-                .foregroundStyle(Color.accentPink)
+                .foregroundStyle(Color.recipeAppAccent)
             
             Text(title)
                 .font(.title)
