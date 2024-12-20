@@ -26,7 +26,7 @@ struct SectionTitle: View {
                 .layoutPriority(1) 
                             
             Rectangle()
-                .frame(width: .infinity, height: 1)
+                .frame(maxWidth: .infinity, maxHeight: 1)
                 .foregroundStyle(.primary.opacity(0.2))
         }
     }

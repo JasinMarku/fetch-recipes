@@ -65,43 +65,45 @@ struct RecipeDetailView: View {
 private extension RecipeDetailView {
     struct LinkCard: View {
         let title: String
-         let subtitle: String
-         let imageName: String
-         let destination: URL
-         let accentColor: Color
+        let subtitle: String
+        let imageName: String
+        let destination: URL
+        let accentColor: Color
         
         var body: some View {
-            HStack(spacing: 10) {
-                // Leading Image
-                Image(imageName)
-                    .renderingMode(.template)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 25, height: 25)
-                    .foregroundStyle(accentColor)
-                
-                // Title and Subtitle
-                HStack {
-                    Text(title)
-                        .font(.headline)
+            Link(destination: destination) { // Wrap in a Link
+                HStack(spacing: 10) {
+                    // Leading Image
+                    Image(imageName)
+                        .renderingMode(.template)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 25, height: 25)
+                        .foregroundStyle(accentColor)
+                    
+                    // Title and Subtitle
+                    HStack {
+                        Text(title)
+                            .font(.headline)
+                        
+                        Spacer()
+                        
+                        Text(subtitle)
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                            .fontWeight(.semibold)
+                    }
                     
                     Spacer()
-                    
-                    Text(subtitle)
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
-                        .fontWeight(.semibold)
-                }
-                
-                Spacer()
 
-                // Chevron
-                Image(systemName: "chevron.right")
-                    .foregroundStyle(accentColor)
+                    // Chevron
+                    Image(systemName: "chevron.right")
+                        .foregroundStyle(accentColor)
+                }
+                .padding()
+                .background(.thinMaterial)
+                .cornerRadius(15)
             }
-            .padding()
-            .background(.thickMaterial)
-            .cornerRadius(10)
         }
     }
 }

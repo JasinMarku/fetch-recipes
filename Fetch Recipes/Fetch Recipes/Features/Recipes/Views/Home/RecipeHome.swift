@@ -74,10 +74,13 @@ extension RecipeHome {
     }
     
     var title: some View {
-        HStack (alignment: .bottom){
+        HStack (alignment: .lastTextBaseline){
             Text("Recipes")
                 .font(.largeTitle)
 
+            Text("by Fetch")
+                .font(.caption)
+                .foregroundStyle(.secondary)
         }
         .fontWeight(.bold)
         .fontDesign(.rounded)
