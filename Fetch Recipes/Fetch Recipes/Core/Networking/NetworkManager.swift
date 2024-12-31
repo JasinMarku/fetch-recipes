@@ -8,13 +8,13 @@
 import Foundation
 
 // 'actor' ensures all data or methods inside are accessed sequentially
-actor NetworkManager {
-    static let shared = NetworkManager()
+public class NetworkManager {
+    public static let shared = NetworkManager()
     
-    private init() {}
+    public init() {}
     
     // method can handle any type of data that conforms to Decodable, making it reusable for other API calls
-    func fetch<T: Decodable>(_ endpoint: Endpoint) async throws -> T {
+    public func fetch<T: Decodable>(_ endpoint: Endpoint) async throws -> T {
         guard let url = endpoint.url else {
             throw NetworkError.invalidURL
         }

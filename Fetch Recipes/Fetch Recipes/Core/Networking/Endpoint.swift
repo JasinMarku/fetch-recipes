@@ -7,22 +7,22 @@
 
 import Foundation
 
-protocol Endpoint {
+public protocol Endpoint {
     var baseURL: String { get }
     var path: String { get }
     var url: URL? { get }
 }
 
-enum RecipeEndpoint: Endpoint {
+public enum RecipeEndpoint: Endpoint {
     case fetchRecipes
     case malformedRecipes
     case emptyRecipes
     
-    var baseURL: String {
+    public var baseURL: String {
         "https://d3jbb8n5wk0qxi.cloudfront.net"
     }
     
-    var path: String {
+    public var path: String {
         switch self {
         case .fetchRecipes:
             return "/recipes.json"
@@ -33,8 +33,7 @@ enum RecipeEndpoint: Endpoint {
         }
     }
     
-    var url: URL? {
+    public var url: URL? {
         URL(string: baseURL + path)
     }
-    
 }
