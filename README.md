@@ -1,21 +1,17 @@
-# README 🚀
+# README
 
-## Steps to Run the App 🛠
+## Steps to Run the App
 1. **Clone or Download** the repository to your local machine.
 2. **Open the project** in Xcode (version 15 or later).
 3. **Select an iOS 18 simulator** (or a device running iOS 18) from the scheme selector.
 4. Press **Command + R** (Run) to build and launch the app.  
-   - Make sure you have **iOS 18.0** SDK support in your Xcode environment. ✅
+   - Make sure you have **iOS 18.0** SDK support in your Xcode environment.
 
----
-
-## Focus Areas ✨
+## Focus Areas
 I decided to really focus on and prioritize the UI. The app is fairly simple in terms of functionality, and there's not much data being worked with, so I had to make the most out of the limited information provided, such as the name, image, and country.  
 To enhance user experience, I added a featured section, which highlights a specific cuisine dynamically, and incorporated sorting options that allow users to sort recipes alphabetically or by country. These features make the app more interactive and engaging while staying true to its simple design goals.
 
----
-
-## Time Spent ⏰
+## Time Spent
 - **Initial Development (About 5 hours)**: Focused on implementing the basic functionality, including:
   - Networking calls
   - Setting up the view models
@@ -32,9 +28,7 @@ To enhance user experience, I added a featured section, which highlights a speci
   - Ensure the testing section was implemented correctly
   - Validate functionality with passing tests, which was incredibly rewarding
 
----
-
-## Trade-offs and Decisions 🤔
+## Trade-offs and Decisions
 One of the criteria for this project was to limit the app to a single main view. While I adhered to this by having one primary view, I made a deliberate decision to include a supplementary sheet to enhance the user experience.
 
 The API provided additional links, such as:
@@ -50,8 +44,6 @@ So, rather than cluttering the main view, I opted to create a tappable detail sh
 
 While the sheet isn't a "true" view in the context of navigation, it complements the app's single-view nature and makes better use of the data provided. This decision balanced adhering to the project's requirements while improving functionality and usability.
 
----
-
 ## Weakest Part of the Project
 Overall, the project meets the stated requirements, but a few elements could be expanded or refined if it were intended for a larger, production-level app:
 
@@ -64,9 +56,7 @@ Overall, the project meets the stated requirements, but a few elements could be 
   - **User Profiles**: Providing a personal space to showcase favorite dishes, share collections, and see others’ collections.
   - **Recipe Creation**: Allowing users to upload their own dishes, complete with custom images, descriptions, and optional steps, transforming the app into a mini community for recipe sharing.
 
----
-
-## Additional Information ℹ️
+## Additional Information
 - **Learning Curve for Testing**  
 The testing portion was the most challenging aspect of this project for me. I’ve rarely used a dedicated testing file in my previous personal projects, so creating a thorough unit test suite in Xcode was a new experience. It took a fair amount of tutorials and documentation study to fully understand best practices. However, once I grasped the fundamentals, writing additional tests and refining them became much more straightforward.
 
@@ -76,11 +66,6 @@ The testing portion was the most challenging aspect of this project for me. I’
   - The project targets **iOS 18.0** and was developed using **Xcode 15**.
   - Recipe data is fetched from a single remote endpoint. No advanced offline or error-correction logic was included, given the project’s scope.
 
----
 ## Contact
 - **Email**: [jasinmarku@gmail.com](mailto:jasinmarku@gmail.com)
 - **LinkedIn**: [https://www.linkedin.com/in/jasin-marku/](https://www.linkedin.com/in/jasin-marku/)
-
-
-
-
